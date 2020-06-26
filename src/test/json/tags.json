@@ -1,0 +1,80 @@
+[
+  {
+    "id": 26,
+    "count": 1,
+    "description": "",
+    "link": "https://wordpress.org/news/tag/wordpress-dev/",
+    "name": "#wordpress-dev",
+    "slug": "wordpress-dev",
+    "taxonomy": "post_tag",
+    "meta": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/tags/26"
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/tags"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/taxonomies/post_tag"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/posts?tags=26"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 27,
+    "count": 1,
+    "description": "",
+    "link": "https://wordpress.org/news/tag/2-0/",
+    "name": "2.0",
+    "slug": "2-0",
+    "taxonomy": "post_tag",
+    "meta": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/tags/27"
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/tags"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/taxonomies/post_tag"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/posts?tags=27"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  }
+]

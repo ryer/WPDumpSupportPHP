@@ -1,0 +1,83 @@
+[
+  {
+    "id": 8484,
+    "date": "2020-03-31T18:19:03",
+    "date_gmt": "2020-03-31T18:19:03",
+    "guid": {
+      "rendered": "https://wordpress.org/news/files/2020/03/textcolor.mp4"
+    },
+    "modified": "2020-03-31T18:19:03",
+    "modified_gmt": "2020-03-31T18:19:03",
+    "slug": "textcolor",
+    "status": "inherit",
+    "type": "attachment",
+    "link": "https://wordpress.org/news/2020/03/adderley/textcolor/",
+    "title": {
+      "rendered": "textcolor"
+    },
+    "author": 11,
+    "comment_status": "closed",
+    "ping_status": "closed",
+    "template": "",
+    "meta": {
+      "spay_email": ""
+    },
+    "jetpack_videopress_guid": "",
+    "jetpack_shortlink": "https://wp.me/aZhYe-2cG",
+    "jetpack_sharing_enabled": true,
+    "jetpack_likes_enabled": true,
+    "description": {
+      "rendered": "<div style=\"width: 632px;\" class=\"wp-video\"><!--[if lt IE 9]><script>document.createElement('video');</script><![endif]-->\n<video class=\"wp-video-shortcode\" id=\"video-8474-1\" width=\"632\" height=\"276\" preload=\"metadata\" controls=\"controls\"><source type=\"video/mp4\" src=\"https://wordpress.org/news/files/2020/03/textcolor.mp4?_=1\" /><a href=\"https://wordpress.org/news/files/2020/03/textcolor.mp4\">https://wordpress.org/news/files/2020/03/textcolor.mp4</a></video></div>\n"
+    },
+    "caption": {
+      "rendered": "<p>https://wordpress.org/news/files/2020/03/textcolor.mp4</p>\n"
+    },
+    "alt_text": "",
+    "media_type": "file",
+    "mime_type": "video/mp4",
+    "media_details": {
+      "bitrate": 414080,
+      "filesize": 440616,
+      "mime_type": "video/quicktime",
+      "length": 8,
+      "length_formatted": "0:08",
+      "width": 798,
+      "height": 349,
+      "fileformat": "mp4",
+      "dataformat": "quicktime",
+      "created_timestamp": 1585678675,
+      "sizes": {}
+    },
+    "post": 8455,
+    "source_url": "https://wordpress.org/news/files/2020/03/textcolor.mp4",
+    "_links": {
+      "self": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/media/8474"
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/media"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/types/attachment"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://wordpress.org/news/wp-json/wp/v2/users/118378"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://wordpress.org/news/wp-json/wp/v2/comments?post=8474"
+        }
+      ]
+    }
+  }
+]

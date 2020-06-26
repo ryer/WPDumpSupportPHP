@@ -1,0 +1,54 @@
+[
+  {
+    "id": 11,
+    "name": "Anonymous man",
+    "url": "http://xxx/",
+    "description": "hello xxx world",
+    "link": "https://profiles.wordpress.org/xxx/",
+    "slug": "xxx",
+    "avatar_urls": {
+      "24": "https://secure.gravatar.com/avatar/51f13e0e11344034ec9d33f37576ee39?s=24&d=mm&r=g",
+      "48": "https://secure.gravatar.com/avatar/51f13e0e11344034ec9d33f37576ee39?s=48&d=mm&r=g",
+      "96": "https://secure.gravatar.com/avatar/51f13e0e11344034ec9d33f37576ee39?s=96&d=mm&r=g"
+    },
+    "meta": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/users/140668"
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/users"
+        }
+      ]
+    }
+  },
+  {
+    "id": 22,
+    "name": "Anonymous woman",
+    "url": "http://yyy/",
+    "description": "hello yyy world",
+    "link": "https://profiles.wordpress.org/yyy/",
+    "slug": "yyy",
+    "avatar_urls": {
+      "24": "https://secure.gravatar.com/avatar/b3e2b94eb305bf95a1bee11bc7705fb7?s=24&d=mm&r=g",
+      "48": "https://secure.gravatar.com/avatar/b3e2b94eb305bf95a1bee11bc7705fb7?s=48&d=mm&r=g",
+      "96": "https://secure.gravatar.com/avatar/b3e2b94eb305bf95a1bee11bc7705fb7?s=96&d=mm&r=g"
+    },
+    "meta": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/users/2738372"
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/users"
+        }
+      ]
+    }
+  }
+]
