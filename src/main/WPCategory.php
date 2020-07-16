@@ -7,18 +7,18 @@ use Exception;
 
 /**
  * category
+ *
+ * @property int $count
+ * @property string $description
+ * @property string $link
+ * @property string $name
+ * @property string $slug
+ * @property string $taxonomy
+ * @property int $parent
+ * @property array $meta
  */
 class WPCategory extends WPObject
 {
-  public $count;
-  public $description;
-  public $link;
-  public $name;
-  public $slug;
-  public $taxonomy;
-  public $parent;
-  public $meta;
-
   /**
    * @param array $source
    * @return WPCategory
@@ -30,17 +30,10 @@ class WPCategory extends WPObject
       throw new Exception("unexpected source");
     }
 
-    $category = new WPCategory();
-    $category->id = $source['id'];
-    $category->count = $source['count'];
-    $category->description = $source['description'];
-    $category->link = $source['link'];
-    $category->name = $source['name'];
-    $category->slug = $source['slug'];
-    $category->taxonomy = $source['taxonomy'];
-    $category->parent = $source['parent'];
-    $category->meta = $source['meta'];
+    $self = new WPCategory();
+    $self->id = $source['id'];
+    $self->source = $source;
 
-    return $category;
+    return $self;
   }
 }

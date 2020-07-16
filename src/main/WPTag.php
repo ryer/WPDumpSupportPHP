@@ -8,17 +8,16 @@ use Exception;
 /**
  * tag
  *
+ * @property int $count
+ * @property string $description
+ * @property string $link
+ * @property string $name
+ * @property string $slug
+ * @property string $taxonomy
+ * @property array $meta
  */
 class WPTag extends WPObject
 {
-  public $count;
-  public $description;
-  public $link;
-  public $name;
-  public $slug;
-  public $taxonomy;
-  public $meta;
-
   /**
    * @param array $source
    * @return WPTag
@@ -30,16 +29,10 @@ class WPTag extends WPObject
       throw new Exception("unexpected source");
     }
 
-    $tag = new WPTag();
-    $tag->id = $source['id'];
-    $tag->count = $source['count'];
-    $tag->description = $source['description'];
-    $tag->link = $source['link'];
-    $tag->name = $source['name'];
-    $tag->slug = $source['slug'];
-    $tag->taxonomy = $source['taxonomy'];
-    $tag->meta = $source['meta'];
+    $self = new WPTag();
+    $self->id = $source['id'];
+    $self->source = $source;
 
-    return $tag;
+    return $self;
   }
 }

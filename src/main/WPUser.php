@@ -7,17 +7,17 @@ use Exception;
 
 /**
  * user
+ *
+ * @property string $name
+ * @property string $url
+ * @property string $description
+ * @property string $link
+ * @property string $slug
+ * @property string[] $avatar_urls
+ * @property string $meta
  */
 class WPUser extends WPObject
 {
-  public $name;
-  public $url;
-  public $description;
-  public $link;
-  public $slug;
-  public $avatar_urls;
-  public $meta;
-
   /**
    * @param array $source
    * @return WPUser
@@ -29,16 +29,10 @@ class WPUser extends WPObject
       throw new Exception("unexpected source");
     }
 
-    $user = new WPUser();
-    $user->id = $source['id'];
-    $user->name = $source['name'];
-    $user->url = $source['url'];
-    $user->description = $source['description'];
-    $user->link = $source['link'];
-    $user->slug = $source['slug'];
-    $user->avatar_urls = isset($source['avatar_urls']) ? $source['avatar_urls'] : [];
-    $user->meta = $source['meta'];
+    $self = new WPUser();
+    $self->id = $source['id'];
+    $self->source = $source;
 
-    return $user;
+    return $self;
   }
 }

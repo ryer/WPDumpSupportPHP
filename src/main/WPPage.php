@@ -7,29 +7,32 @@ use Exception;
 
 /**
  * page
+ *
+ * @property string $date
+ * @property string $date_gmt
+ * @property string $guid
+ * @property string $modified
+ * @property string $modified_gmt
+ * @property string $slug
+ * @property string $status
+ * @property string $type
+ * @property string $link
+ * @property string $title
+ * @property string $content
+ * @property string $excerpt
  * @property int|WPUser $author
  * @property int|WPMedia $featured_media
+ * @property string $comment_status
+ * @property string $ping_status
+ * @property string $template
+ * @property array $meta
  */
 class WPPage extends WPObject
 {
-  public $date;
-  public $date_gmt;
   public $guid;
-  public $modified;
-  public $modified_gmt;
-  public $slug;
-  public $status;
-  public $type;
-  public $link;
   public $title;
   public $content;
   public $excerpt;
-  public $author;
-  public $featured_media;
-  public $comment_status;
-  public $ping_status;
-  public $template;
-  public $meta;
 
   /**
    * @param array $source
@@ -42,27 +45,15 @@ class WPPage extends WPObject
       throw new Exception("unexpected source");
     }
 
-    $page = new WPPage();
-    $page->id = $source['id'];
-    $page->date = $source['date'];
-    $page->date_gmt = $source['date_gmt'];
-    $page->guid = $source['guid']['rendered'];
-    $page->modified = $source['modified'];
-    $page->modified_gmt = $source['modified_gmt'];
-    $page->slug = $source['slug'];
-    $page->status = $source['status'];
-    $page->type = $source['type'];
-    $page->link = $source['link'];
-    $page->title = $source['title']['rendered'];
-    $page->content = $source['content']['rendered'];
-    $page->excerpt = $source['excerpt']['rendered'];
-    $page->author = $source['author'];
-    $page->featured_media = $source['featured_media'];
-    $page->comment_status = $source['comment_status'];
-    $page->ping_status = $source['ping_status'];
-    $page->template = $source['template'];
-    $page->meta = $source['meta'];
+    $self = new WPPage();
+    $self->id = $source['id'];
+    $self->source = $source;
 
-    return $page;
+    $self->guid = $source['guid']['rendered'];
+    $self->title = $source['title']['rendered'];
+    $self->content = $source['content']['rendered'];
+    $self->excerpt = $source['excerpt']['rendered'];
+
+    return $self;
   }
 }

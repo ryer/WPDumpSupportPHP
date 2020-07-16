@@ -8,33 +8,36 @@ use Exception;
 /**
  * media
  *
+ * @property string $date
+ * @property string $date_gmt
+ * @property string $guid
+ * @property string $modified
+ * @property string $modified_gmt
+ * @property string $slug
+ * @property string $status
+ * @property string $type
+ * @property string $link
+ * @property string $title
  * @property int|WPUser $author
+ * @property string $comment_status
+ * @property string $ping_status
+ * @property string $template
+ * @property array $meta
+ * @property string $description
+ * @property string $caption
+ * @property string $alt_text
+ * @property string $media_type
+ * @property string $mime_type
+ * @property array $media_details
+ * @property string $post
+ * @property string $source_url
  */
 class WPMedia extends WPObject
 {
-  public $date;
-  public $date_gmt;
   public $guid;
-  public $modified;
-  public $modified_gmt;
-  public $slug;
-  public $status;
-  public $type;
-  public $link;
   public $title;
-  public $author;
-  public $comment_status;
-  public $ping_status;
-  public $template;
-  public $meta;
   public $description;
   public $caption;
-  public $alt_text;
-  public $media_type;
-  public $mime_type;
-  public $media_details;
-  public $post;
-  public $source_url;
 
   /**
    * @param array $source
@@ -47,32 +50,15 @@ class WPMedia extends WPObject
       throw new Exception("unexpected source");
     }
 
-    $media = new WPMedia();
-    $media->id = $source['id'];
-    $media->date = $source['date'];
-    $media->date_gmt = $source['date_gmt'];
-    $media->guid = $source['guid']['rendered'];
-    $media->modified = $source['modified'];
-    $media->modified_gmt = $source['modified_gmt'];
-    $media->slug = $source['slug'];
-    $media->status = $source['status'];
-    $media->type = $source['type'];
-    $media->link = $source['link'];
-    $media->title = $source['title']['rendered'];
-    $media->author = $source['author'];
-    $media->comment_status = $source['comment_status'];
-    $media->ping_status = $source['ping_status'];
-    $media->template = $source['template'];
-    $media->meta = $source['meta'];
-    $media->description = $source['description']['rendered'];
-    $media->caption = $source['caption']['rendered'];
-    $media->alt_text = $source['alt_text'];
-    $media->media_type = $source['media_type'];
-    $media->mime_type = $source['mime_type'];
-    $media->media_details = $source['media_details'];
-    $media->post = $source['post'];
-    $media->source_url = $source['source_url'];
+    $self = new WPMedia();
+    $self->id = $source['id'];
+    $self->source = $source;
 
-    return $media;
+    $self->guid = $source['guid']['rendered'];
+    $self->title = $source['title']['rendered'];
+    $self->description = $source['description']['rendered'];
+    $self->caption = $source['caption']['rendered'];
+
+    return $self;
   }
 }

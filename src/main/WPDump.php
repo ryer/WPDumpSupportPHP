@@ -100,29 +100,37 @@ class WPDump
 
     foreach ($this->loader->loadMediaList($this->fn('media')) as $media)
     {
-      $media->author = $this->reference($media, 'author', $media->author, 'users');
+      $media->update('author', $this->reference($media, 'author', $media->author, 'users'));
+
       $this->mediaList[$media->id] = $media;
     }
 
     foreach ($this->loader->loadPages($this->fn('pages')) as $page)
     {
-      $page->author = $this->reference($page, 'author', $page->author, 'users');
-      $page->featured_media = $this->reference($page, 'featured_media', $page->featured_media, 'mediaList');
+      $page->update('author', $this->reference($page, 'author', $page->author, 'users'));
+      $page->update('featured_media', $this->reference($page, 'featured_media', $page->featured_media, 'mediaList'));
       $this->pages[$page->id] = $page;
     }
 
     foreach ($this->loader->loadPosts($this->fn('posts')) as $post)
     {
-      $post->author = $this->reference($post, 'author', $post->author, 'users');
-      $post->featured_media = $this->reference($post, 'featured_media', $post->featured_media, 'mediaList');
-      for ($i = 0; $i < count($post->categories); ++$i)
+      $post->update('author', $this->reference($post, 'author', $post->author, 'users'));
+      $post->update('featured_media', $this->reference($post, 'featured_media', $post->featured_media, 'mediaList'));
+
+      $categories = [];
+      foreach ($post->categories as $it)
       {
-        $post->categories[$i] = $this->reference($post, 'categories', $post->categories[$i], 'categories');
+        $categories[] = $this->reference($post, 'categories', $it, 'categories');
       }
-      for ($i = 0; $i < count($post->tags); ++$i)
+      $post->update('categories', $categories);
+
+      $tags = [];
+      foreach ($post->tags as $it)
       {
-        $post->tags[$i] = $this->reference($post, 'tags', $post->tags[$i], 'tags');
+        $tags[] = $this->reference($post, 'tags', $it, 'tags');
       }
+      $post->update('tags', $tags);
+
       $this->posts[$post->id] = $post;
     }
   }
