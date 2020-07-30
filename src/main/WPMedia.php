@@ -41,24 +41,25 @@ class WPMedia extends WPObject
 
   /**
    * @param array $source
-   * @return WPMedia
    */
-  public static function processSource(array $source)
+  public function processSource(array $source)
   {
-    if (!isset($source['id']) or !isset($source['type']) or $source['type'] !== 'attachment')
+    parent::processSource($source);
+
+    if (
+      !isset($source['type']) or
+      !isset($source['guid']) or
+      !isset($source['title']) or
+      !isset($source['description']) or
+      !isset($source['caption'])
+    )
     {
       throw new Exception("unexpected source");
     }
 
-    $self = new WPMedia();
-    $self->id = $source['id'];
-    $self->source = $source;
-
-    $self->guid = $source['guid']['rendered'];
-    $self->title = $source['title']['rendered'];
-    $self->description = $source['description']['rendered'];
-    $self->caption = $source['caption']['rendered'];
-
-    return $self;
+    $this->guid = $source['guid']['rendered'];
+    $this->title = $source['title']['rendered'];
+    $this->description = $source['description']['rendered'];
+    $this->caption = $source['caption']['rendered'];
   }
 }

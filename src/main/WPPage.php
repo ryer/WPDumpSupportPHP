@@ -36,24 +36,25 @@ class WPPage extends WPObject
 
   /**
    * @param array $source
-   * @return WPPage
    */
-  public static function processSource(array $source)
+  public function processSource(array $source)
   {
-    if (!isset($source['id']) or !isset($source['type']) or $source['type'] !== 'page')
+    parent::processSource($source);
+
+    if (
+      !isset($source['type']) or
+      !isset($source['guid']) or
+      !isset($source['title']) or
+      !isset($source['content']) or
+      !isset($source['excerpt'])
+    )
     {
       throw new Exception("unexpected source");
     }
 
-    $self = new WPPage();
-    $self->id = $source['id'];
-    $self->source = $source;
-
-    $self->guid = $source['guid']['rendered'];
-    $self->title = $source['title']['rendered'];
-    $self->content = $source['content']['rendered'];
-    $self->excerpt = $source['excerpt']['rendered'];
-
-    return $self;
+    $this->guid = $source['guid']['rendered'];
+    $this->title = $source['title']['rendered'];
+    $this->content = $source['content']['rendered'];
+    $this->excerpt = $source['excerpt']['rendered'];
   }
 }

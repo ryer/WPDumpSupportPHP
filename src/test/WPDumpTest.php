@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace WPDumpSupportTest;
 
 use PHPUnit\Framework\TestCase;
+use WPDumpSupport\WPCategory;
 use WPDumpSupport\WPDump;
 
 /**
@@ -13,7 +14,7 @@ class WPDumpTest extends TestCase
 {
   public function testLoad()
   {
-    $wpDump = new WPDump(__DIR__ . '/json/');
+    $wpDump = new WPDump(__DIR__ . '/json/', ['custom' => WPCategory::class]);
     $wpDump->load();
     static::assertCount(2, $wpDump->errors);
 
@@ -37,5 +38,9 @@ class WPDumpTest extends TestCase
 
     // pages.featured_media -> media.id
     static::assertEquals($wpDump->mediaList[8484]->id, $wpDump->pages[11011786]->featured_media->id);
+
+    // custom
+    /* @noinspection PhpPossiblePolymorphicInvocationInspection */
+    static::assertEquals('Community', $wpDump->custom['custom'][3]->name);
   }
 }

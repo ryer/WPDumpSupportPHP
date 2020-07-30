@@ -31,12 +31,12 @@ class WPJsonLoaderTest extends TestCase
 
   public function testLoadWpJson()
   {
-    $tags = $this->loader->loadWpJson(__DIR__ . '/json/tags.json', ['WPDumpSupport\WPTag', 'processSource']);
+    $tags = $this->loader->loadWpJson(__DIR__ . '/json/tags.json', 'WPDumpSupport\WPTag');
     static::assertInstanceOf(Generator::class, $tags);
     static::assertInstanceOf(WPTag::class, iterator_to_array($tags)[0]);
 
     static::expectException(Exception::class);
-    iterator_to_array($this->loader->loadWpJson('xxx', ['WPDumpSupport\WPTag', 'processSource']));
+    iterator_to_array($this->loader->loadWpJson('xxx', 'WPDumpSupport\WPTag'));
   }
 
   public function testLoadTags()
@@ -73,5 +73,11 @@ class WPJsonLoaderTest extends TestCase
   {
     $mediaList = $this->loader->loadUsers(__DIR__ . '/json/users.json');
     static::assertInstanceOf(WPUser::class, iterator_to_array($mediaList)[0]);
+  }
+
+  public function testLoadCustom()
+  {
+    $mediaList = $this->loader->loadCustom(__DIR__ . '/json/custom.json', WPCategory::class);
+    static::assertInstanceOf(WPCategory::class, iterator_to_array($mediaList)[0]);
   }
 }

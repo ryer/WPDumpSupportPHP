@@ -21,19 +21,14 @@ class WPCategory extends WPObject
 {
   /**
    * @param array $source
-   * @return WPCategory
    */
-  public static function processSource(array $source)
+  public function processSource(array $source)
   {
-    if (!isset($source['id']) or !isset($source['taxonomy']) or $source['taxonomy'] !== 'category')
+    parent::processSource($source);
+
+    if (!isset($source['taxonomy']))
     {
       throw new Exception("unexpected source");
     }
-
-    $self = new WPCategory();
-    $self->id = $source['id'];
-    $self->source = $source;
-
-    return $self;
   }
 }

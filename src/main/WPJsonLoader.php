@@ -17,7 +17,7 @@ class WPJsonLoader
    */
   public function loadPosts($filePath): Generator
   {
-    return $this->loadWpJson($filePath, ['WPDumpSupport\WPPost', 'processSource']);
+    return $this->loadWpJson($filePath, 'WPDumpSupport\WPPost');
   }
 
   /**
@@ -26,7 +26,7 @@ class WPJsonLoader
    */
   public function loadTags($filePath): Generator
   {
-    return $this->loadWpJson($filePath, ['WPDumpSupport\WPTag', 'processSource']);
+    return $this->loadWpJson($filePath, 'WPDumpSupport\WPTag');
   }
 
   /**
@@ -35,7 +35,7 @@ class WPJsonLoader
    */
   public function loadCategories($filePath): Generator
   {
-    return $this->loadWpJson($filePath, ['WPDumpSupport\WPCategory', 'processSource']);
+    return $this->loadWpJson($filePath, 'WPDumpSupport\WPCategory');
   }
 
   /**
@@ -44,7 +44,7 @@ class WPJsonLoader
    */
   public function loadMediaList($filePath): Generator
   {
-    return $this->loadWpJson($filePath, ['WPDumpSupport\WPMedia', 'processSource']);
+    return $this->loadWpJson($filePath, 'WPDumpSupport\WPMedia');
   }
 
   /**
@@ -53,7 +53,7 @@ class WPJsonLoader
    */
   public function loadPages($filePath): Generator
   {
-    return $this->loadWpJson($filePath, ['WPDumpSupport\WPPage', 'processSource']);
+    return $this->loadWpJson($filePath, 'WPDumpSupport\WPPage');
   }
 
   /**
@@ -62,15 +62,25 @@ class WPJsonLoader
    */
   public function loadUsers($filePath): Generator
   {
-    return $this->loadWpJson($filePath, ['WPDumpSupport\WPUser', 'processSource']);
+    return $this->loadWpJson($filePath, 'WPDumpSupport\WPUser');
   }
 
   /**
    * @param string $filePath
-   * @param callable $processor (array $source): WPObject
+   * @param string $type WPObject type (e.g. WPDumpSupport\WPPost)
    * @return Generator|WPObject[]
    */
-  public function loadWpJson($filePath, $processor): Generator
+  public function loadCustom($filePath, $type): Generator
+  {
+    return $this->loadWpJson($filePath, $type);
+  }
+
+  /**
+   * @param string $filePath
+   * @param string $type WPObject type (e.g. WPDumpSupport\WPPost)
+   * @return Generator|WPObject[]
+   */
+  public function loadWpJson($filePath, $type): Generator
   {
     if (!file_exists($filePath))
     {
@@ -92,7 +102,10 @@ class WPJsonLoader
 
     for ($i = 0; $i < count($sources); ++$i)
     {
-      yield $processor($sources[$i]);
+      /* @var $o WPObject */
+      $o = new $type();
+      $o->processSource($sources[$i]);
+      yield $o;
       $sources[$i] = null;
     }
   }

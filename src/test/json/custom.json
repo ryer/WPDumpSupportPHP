@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "count": 3,
+    "description": "",
+    "link": "https://wordpress.org/news/category/awards/",
+    "name": "Awards",
+    "slug": "awards",
+    "taxonomy": "custom",
+    "parent": 0,
+    "meta": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/categories/143"
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/categories"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/taxonomies/category"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/posts?categories=143"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "count": 60,
+    "description": "",
+    "link": "https://wordpress.org/news/category/community/",
+    "name": "Community",
+    "slug": "community",
+    "taxonomy": "custom",
+    "parent": 0,
+    "meta": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/categories/3"
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/categories"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/taxonomies/category"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://wordpress.org/news/wp-json/wp/v2/posts?categories=3"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  }
+]

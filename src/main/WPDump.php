@@ -19,6 +19,16 @@ class WPDump
   private $loader;
 
   /**
+   * @var WPObject[][]
+   */
+  public $custom = [];
+
+  /**
+   * @var string[]
+   */
+  public $customDef = [];
+
+  /**
    * @var string[]
    */
   public $errors = [];
@@ -54,11 +64,13 @@ class WPDump
   public $mediaList = [];
 
   /**
-   * @param $dir string
+   * @param string $dir
+   * @param string[] $customDef path => WPObject type (e.g. WPDumpSupport\WPPost)
    */
-  public function __construct($dir)
+  public function __construct($dir, array $customDef = [])
   {
     $this->dir = $dir;
+    $this->customDef = $customDef;
     $this->loader = new WPJsonLoader();
   }
 
@@ -74,6 +86,11 @@ class WPDump
     $this->users = [];
     $this->tags = [];
     $this->mediaList = [];
+
+    foreach (array_keys($this->customDef) as $path)
+    {
+      $this->custom[$path] = [];
+    }
   }
 
   /**
@@ -100,39 +117,75 @@ class WPDump
 
     foreach ($this->loader->loadMediaList($this->fn('media')) as $media)
     {
-      $media->update('author', $this->reference($media, 'author', $media->author, 'users'));
-
-      $this->mediaList[$media->id] = $media;
+      $this->mediaList[$media->id] = $this->resolveMediaReferences($media);
     }
 
     foreach ($this->loader->loadPages($this->fn('pages')) as $page)
     {
-      $page->update('author', $this->reference($page, 'author', $page->author, 'users'));
-      $page->update('featured_media', $this->reference($page, 'featured_media', $page->featured_media, 'mediaList'));
-      $this->pages[$page->id] = $page;
+      $this->pages[$page->id] = $this->resolvePageReferences($page);
     }
 
     foreach ($this->loader->loadPosts($this->fn('posts')) as $post)
     {
-      $post->update('author', $this->reference($post, 'author', $post->author, 'users'));
-      $post->update('featured_media', $this->reference($post, 'featured_media', $post->featured_media, 'mediaList'));
-
-      $categories = [];
-      foreach ($post->categories as $it)
-      {
-        $categories[] = $this->reference($post, 'categories', $it, 'categories');
-      }
-      $post->update('categories', $categories);
-
-      $tags = [];
-      foreach ($post->tags as $it)
-      {
-        $tags[] = $this->reference($post, 'tags', $it, 'tags');
-      }
-      $post->update('tags', $tags);
-
-      $this->posts[$post->id] = $post;
+      $this->posts[$post->id] = $this->resolvePostReferences($post);
     }
+
+    foreach ($this->customDef as $path => $type)
+    {
+      foreach ($this->loader->loadCustom($this->fn($path), $type) as $custom)
+      {
+        $this->custom[$path][$custom->id] = $custom;
+      }
+    }
+  }
+
+  /**
+   * @param WPPage $page
+   * @return WPPage
+   */
+  public function resolvePageReferences(WPPage $page)
+  {
+    $page->update('author', $this->reference($page, 'author', $page->author, 'users'));
+    $page->update('featured_media', $this->reference($page, 'featured_media', $page->featured_media, 'mediaList'));
+
+    return $page;
+  }
+
+  /**
+   * @param WPMedia $media
+   * @return WPMedia
+   */
+  public function resolveMediaReferences(WPMedia $media)
+  {
+    $media->update('author', $this->reference($media, 'author', $media->author, 'users'));
+
+    return $media;
+  }
+
+  /**
+   * @param WPPost $post
+   * @return WPPost
+   */
+  public function resolvePostReferences(WPPost $post)
+  {
+    $post->update('author', $this->reference($post, 'author', $post->author, 'users'));
+    $post->update('featured_media', $this->reference($post, 'featured_media', $post->featured_media, 'mediaList'));
+
+    $categories = [];
+    foreach ($post->categories as $it)
+    {
+      $categories[] = $this->reference($post, 'categories', $it, 'categories');
+    }
+    $post->update('categories', $categories);
+
+    $tags = [];
+    foreach ($post->tags as $it)
+    {
+      $tags[] = $this->reference($post, 'tags', $it, 'tags');
+    }
+    $post->update('tags', $tags);
+
+    return $post;
   }
 
   /**
@@ -142,7 +195,7 @@ class WPDump
    * @param $target string
    * @return WPObject
    */
-  private function reference($self, $prop, $selfId, $target)
+  public function reference($self, $prop, $selfId, $target)
   {
     if (!$selfId)
     {

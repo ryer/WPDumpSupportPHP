@@ -20,19 +20,14 @@ class WPUser extends WPObject
 {
   /**
    * @param array $source
-   * @return WPUser
    */
-  public static function processSource(array $source)
+  public function processSource(array $source)
   {
-    if (!isset($source['id']) or !isset($source['url']))
+    parent::processSource($source);
+
+    if (!isset($source['url']))
     {
       throw new Exception("unexpected source");
     }
-
-    $self = new WPUser();
-    $self->id = $source['id'];
-    $self->source = $source;
-
-    return $self;
   }
 }
