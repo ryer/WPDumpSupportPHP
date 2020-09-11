@@ -94,7 +94,7 @@ class WPJsonLoader
     }
 
     $sources = json_decode($json, true);
-    if (!$sources or !is_array($sources))
+    if (is_null($sources) or !is_array($sources))
     {
       throw new Exception("Invalid json: $filePath");
     }
