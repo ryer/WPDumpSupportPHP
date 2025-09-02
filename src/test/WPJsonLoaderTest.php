@@ -3,16 +3,11 @@ declare(strict_types=1);
 
 namespace WPDumpSupportTest;
 
-use Exception;
 use Generator;
+use JsonMachine\Exception\SyntaxErrorException;
 use PHPUnit\Framework\TestCase;
-use WPDumpSupport\WPCategory;
 use WPDumpSupport\WPJsonLoader;
-use WPDumpSupport\WPMedia;
-use WPDumpSupport\WPPage;
-use WPDumpSupport\WPPost;
-use WPDumpSupport\WPTag;
-use WPDumpSupport\WPUser;
+use WPDumpSupport\Object\WPTag;
 
 /**
  * Test
@@ -29,55 +24,32 @@ class WPJsonLoaderTest extends TestCase
     $this->loader = new WPJsonLoader();
   }
 
-  public function testLoadWpJson()
+  public function testStreamWpJson()
   {
-    $tags = $this->loader->loadWpJson(__DIR__ . '/json/tags.json', 'WPDumpSupport\WPTag');
-    static::assertInstanceOf(Generator::class, $tags);
-    static::assertInstanceOf(WPTag::class, iterator_to_array($tags)[0]);
-
-    static::expectException(Exception::class);
-    iterator_to_array($this->loader->loadWpJson('xxx', 'WPDumpSupport\WPTag'));
+    $tags = $this->loader->streamWpJson(__DIR__ . '/json/tags.json', WPTag::class);
+    $this->assertInstanceOf(Generator::class, $tags);
+    $tagArray = iterator_to_array($tags);
+    $this->assertCount(2, $tagArray);
+    $this->assertInstanceOf(WPTag::class, $tagArray[0]);
   }
 
-  public function testLoadTags()
+  public function testStreamNonExistentFile()
   {
-    $tags = $this->loader->loadTags(__DIR__ . '/json/tags.json');
-    static::assertInstanceOf(WPTag::class, iterator_to_array($tags)[0]);
+    $items = $this->loader->streamWpJson('non_existent_file.json', WPTag::class);
+    $this->assertInstanceOf(Generator::class, $items);
+    $this->assertCount(0, iterator_to_array($items));
   }
 
-  public function testLoadPages()
+  public function testStreamEmptyJson()
   {
-    $pages = $this->loader->loadPages(__DIR__ . '/json/pages.json');
-    static::assertInstanceOf(WPPage::class, iterator_to_array($pages)[0]);
+    $items = $this->loader->streamWpJson(__DIR__ . '/json/empty.json', WPTag::class);
+    $this->assertCount(0, iterator_to_array($items));
   }
 
-  public function testLoadCategories()
+  public function testStreamInvalidJson()
   {
-    $categories = $this->loader->loadCategories(__DIR__ . '/json/categories.json');
-    static::assertInstanceOf(WPCategory::class, iterator_to_array($categories)[0]);
-  }
-
-  public function testLoadPosts()
-  {
-    $posts = $this->loader->loadPosts(__DIR__ . '/json/posts.json');
-    static::assertInstanceOf(WPPost::class, iterator_to_array($posts)[0]);
-  }
-
-  public function testLoadMediaList()
-  {
-    $mediaList = $this->loader->loadMediaList(__DIR__ . '/json/media.json');
-    static::assertInstanceOf(WPMedia::class, iterator_to_array($mediaList)[0]);
-  }
-
-  public function testLoadUsers()
-  {
-    $mediaList = $this->loader->loadUsers(__DIR__ . '/json/users.json');
-    static::assertInstanceOf(WPUser::class, iterator_to_array($mediaList)[0]);
-  }
-
-  public function testLoadCustom()
-  {
-    $mediaList = $this->loader->loadCustom(__DIR__ . '/json/custom.json', WPCategory::class);
-    static::assertInstanceOf(WPCategory::class, iterator_to_array($mediaList)[0]);
+    $this->expectException(SyntaxErrorException::class);
+    $items = $this->loader->streamWpJson(__DIR__ . '/json/invalid.json', WPTag::class);
+    iterator_to_array($items);
   }
 }

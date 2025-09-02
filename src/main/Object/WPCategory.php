@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace WPDumpSupport;
-
-use Exception;
+namespace WPDumpSupport\Object;
 
 /**
  * category
@@ -19,16 +17,4 @@ use Exception;
  */
 class WPCategory extends WPObject
 {
-  /**
-   * @param array $source
-   */
-  public function processSource(array $source)
-  {
-    parent::processSource($source);
-
-    if (!isset($source['taxonomy']))
-    {
-      throw new Exception("unexpected source");
-    }
-  }
 }

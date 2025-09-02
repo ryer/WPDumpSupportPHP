@@ -5,108 +5,38 @@ namespace WPDumpSupport;
 
 use Exception;
 use Generator;
+use JsonMachine\Items;
+use WPDumpSupport\Object\WPObject;
 
 /**
- * WordPress wp-json
+ * WordPress wp-json loader using JsonMachine
  */
 class WPJsonLoader
 {
   /**
    * @param string $filePath
-   * @return Generator|WPPost[]
-   */
-  public function loadPosts($filePath): Generator
-  {
-    return $this->loadWpJson($filePath, 'WPDumpSupport\WPPost');
-  }
-
-  /**
-   * @param string $filePath
-   * @return Generator|WPTag[]
-   */
-  public function loadTags($filePath): Generator
-  {
-    return $this->loadWpJson($filePath, 'WPDumpSupport\WPTag');
-  }
-
-  /**
-   * @param string $filePath
-   * @return Generator|WPCategory[]
-   */
-  public function loadCategories($filePath): Generator
-  {
-    return $this->loadWpJson($filePath, 'WPDumpSupport\WPCategory');
-  }
-
-  /**
-   * @param string $filePath
-   * @return Generator|WPMedia[]
-   */
-  public function loadMediaList($filePath): Generator
-  {
-    return $this->loadWpJson($filePath, 'WPDumpSupport\WPMedia');
-  }
-
-  /**
-   * @param string $filePath
-   * @return Generator|WPPage[]
-   */
-  public function loadPages($filePath): Generator
-  {
-    return $this->loadWpJson($filePath, 'WPDumpSupport\WPPage');
-  }
-
-  /**
-   * @param string $filePath
-   * @return Generator|WPUser[]
-   */
-  public function loadUsers($filePath): Generator
-  {
-    return $this->loadWpJson($filePath, 'WPDumpSupport\WPUser');
-  }
-
-  /**
-   * @param string $filePath
-   * @param string $type WPObject type (e.g. WPDumpSupport\WPPost)
+   * @param string $className WPObject subclass name
    * @return Generator|WPObject[]
+   * @throws Exception
    */
-  public function loadCustom($filePath, $type): Generator
-  {
-    return $this->loadWpJson($filePath, $type);
-  }
-
-  /**
-   * @param string $filePath
-   * @param string $type WPObject type (e.g. WPDumpSupport\WPPost)
-   * @return Generator|WPObject[]
-   */
-  public function loadWpJson($filePath, $type): Generator
+  public function streamWpJson($filePath, $className): Generator
   {
     if (!file_exists($filePath))
     {
-      throw new Exception("File not found: $filePath");
+      // Instead of throwing an exception, we return an empty generator
+      // because some json files might be optional.
+      yield from [];
+
+      return;
     }
 
-    $json = file_get_contents($filePath);
-    if (!$json)
+    $sources = Items::fromFile($filePath, ['decoder' => new \JsonMachine\JsonDecoder\ExtJsonDecoder(true)]);
+    foreach ($sources as $source)
     {
-      throw new Exception("Read error: $filePath");
-    }
-
-    $sources = json_decode($json, true);
-    if (is_null($sources) or !is_array($sources))
-    {
-      throw new Exception("Invalid json: $filePath");
-    }
-    unset($json);
-
-    for ($i = 0; $i < count($sources); ++$i)
-    {
-      /* @var $o WPObject */
-      $o = new $type();
-      $o->processSource($sources[$i]);
+      /** @var WPObject $o */
+      $o = new $className();
+      $o->processSource($source);
       yield $o;
-      $sources[$i] = null;
     }
   }
 }

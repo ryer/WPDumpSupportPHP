@@ -1,0 +1,13 @@
+[
+  {
+    "id": 101,
+    "count": 1,
+    "description": "Fiction books",
+    "link": "https://example.com/genre/fiction/",
+    "name": "Fiction",
+    "slug": "fiction",
+    "taxonomy": "genre",
+    "parent": 0,
+    "meta": []
+  }
+]
